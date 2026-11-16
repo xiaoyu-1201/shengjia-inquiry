@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<title>聖佳線上詢價 宣傳片</title>
+<!-- 宣傳片畫面（1080×1920）。不會自己播：render.mjs 逐格呼叫 window.seek(秒) 再截圖。網址加 ?beat=0.4918 決定拍長（House Vibez 122 BPM；Cat Walk 130 BPM 用 0.4615） -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=block" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#eef3fa}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#1d1d1f;-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden}
+.L{position:absolute;will-change:transform,opacity}
+/* 背景：白霧＋冷暖角落＋光束＋冰面反光＋商品色光暈＋雪 */
+#bg{position:absolute;inset:0;background:radial-gradient(70% 40% at 88% 0%,#dcefff,transparent 70%),radial-gradient(60% 34% at 0% 100%,#fff0e4,transparent 70%),linear-gradient(180deg,#fbfdff,#e8f0fa)}
+#studio{position:absolute;inset:0;opacity:0;background:radial-gradient(55% 35% at 50% 18%,#ffffff,transparent 75%),linear-gradient(180deg,#f2f3f5,#d9dce1)}
+#rays{position:absolute;inset:-25%;background:repeating-linear-gradient(115deg,rgba(255,255,255,0) 0 90px,rgba(255,255,255,.6) 120px,rgba(255,255,255,0) 170px);-webkit-mask-image:radial-gradient(55% 45% at 82% 8%,#000,transparent 75%);mask-image:radial-gradient(55% 45% at 82% 8%,#000,transparent 75%)}
+#caus{position:absolute;left:0;right:0;bottom:0;height:520px;opacity:.5;filter:blur(6px);background:radial-gradient(70px 30px at 18% 70%,#c4e4ff,transparent),radial-gradient(90px 34px at 58% 80%,#d2ebff,transparent),radial-gradient(60px 26px at 82% 62%,#c4e4ff,transparent),radial-gradient(110px 36px at 34% 92%,#dcefff,transparent),radial-gradient(80px 30px at 72% 96%,#cfe8ff,transparent)}
+#tint{position:absolute;width:900px;height:700px;border-radius:50%;filter:blur(140px);opacity:.42}
+#snow{position:absolute;inset:0}
+/* 共用元件 */
+.glass{background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(36px) saturate(160%);backdrop-filter:blur(36px) saturate(160%);border:2px solid rgba(255,255,255,.95);border-radius:56px;box-shadow:0 50px 110px rgba(30,60,120,.14),inset 0 2px 0 #fff}
+.prod{position:absolute;object-fit:contain;background:#fff;border-radius:48px;box-shadow:0 40px 80px rgba(30,60,120,.18)}
+.pill{display:inline-block;background:#0066cc;color:#fff;border-radius:999px;padding:18px 46px;font-size:58px;font-weight:900;letter-spacing:.02em;box-shadow:0 24px 56px rgba(0,102,204,.32);white-space:nowrap}
+.cap{position:absolute;left:60px;right:60px;text-align:center;font-weight:900;line-height:1.22;letter-spacing:-.01em}
+.cap .s{display:block;font-size:62px;font-weight:700;color:#3a3a3c}
+.cap .b{display:block;font-size:100px}
+.blue{color:#0066cc}
+mark{background:linear-gradient(transparent 60%,#ffd36b 60%,#ffd36b 92%,transparent 92%);background-size:0% 100%;background-repeat:no-repeat;color:#0066cc;padding:0 6px}
+.ch{display:inline-block}
+.phone{position:absolute;width:640px;height:1385px;border-radius:96px;background:#111;padding:20px;box-shadow:0 80px 160px rgba(20,40,90,.3)}
+.phone .scr{width:100%;height:100%;border-radius:78px;overflow:hidden;background:#fff;position:relative}
+.phone .scr img{width:100%;display:block}
+.refl{position:absolute;left:0;right:0;top:100%;height:260px;margin-top:14px;border-radius:96px;background:linear-gradient(rgba(17,17,17,.22),transparent);-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent);transform:scaleY(-1);filter:blur(4px)}
+.chip{position:absolute;background:#fff;border-radius:999px;padding:18px 44px;font-size:72px;font-weight:900;box-shadow:0 24px 50px rgba(30,60,120,.18);white-space:nowrap}
+.bub{position:absolute;border-radius:52px;font-size:62px;line-height:1.42;padding:40px 46px;box-shadow:0 24px 60px rgba(30,60,120,.16)}
+.bub.me{background:#06c755;color:#fff;border-bottom-right-radius:14px}
+.bub.shop{background:#fff;color:#1d1d1f;border-bottom-left-radius:14px}
+.item{position:absolute;left:110px;width:860px;height:150px;border-radius:36px;background:#fff;box-shadow:0 18px 40px rgba(30,60,120,.12);display:flex;align-items:center;gap:28px;padding:0 34px;font-size:62px;font-weight:700}
+.item img{width:110px;height:110px;object-fit:contain}
+.tick{position:absolute;left:0;bottom:300px;white-space:nowrap;font-size:66px;font-weight:900;color:#0066cc;opacity:.9}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div><div id="studio"></div><div id="rays"></div><div id="caus"></div><div id="tint"></div>
+  <canvas id="snow" width="1080" height="1920"></canvas>
+
+  <!-- 第 1 幕 開場 -->
+  <div id="s1">
+    <img class="prod L" id="s1back" src="../img/ai/03.jpg" style="width:170px;height:170px;left:780px;top:330px">
+    <img class="prod L" id="s1p1" src="../img/ai/05.jpg" style="width:230px;height:230px;left:110px;top:1330px">
+    <img class="prod L" id="s1p2" src="../img/ai/11.jpg" style="width:200px;height:200px;left:740px;top:1400px">
+    <div class="glass L" id="s1card" style="left:70px;width:940px;top:560px;padding:80px 76px 70px">
+      <div style="font-size:140px;font-weight:900;line-height:1.2" id="s1t1"></div>
+      <div style="font-size:140px;font-weight:900;line-height:1.25"><mark id="s1mark"><span id="s1t2"></span></mark></div>
+      <div id="s1strike" style="position:relative;display:inline-block;margin-top:40px;font-size:72px;font-weight:700;color:#6e6e73">一間一間打電話<i id="s1line" style="position:absolute;left:-10px;top:64%;height:8px;width:0;background:#ff4d55;border-radius:4px;transform:none;transform-origin:left center"></i></div>
+    </div>
+  </div>
+
+  <!-- 第 2 幕 品牌 -->
+  <div id="s2">
+    <img class="prod L" id="p2a" src="../img/ai/01.jpg" style="width:250px;height:250px">
+    <img class="prod L" id="p2b" src="../img/ai/09.jpg" style="width:250px;height:250px">
+    <img class="prod L" id="p2c" src="../img/ai/05.jpg" style="width:250px;height:250px">
+    <img class="prod L" id="p2d" src="../img/ai/11.jpg" style="width:250px;height:250px">
+    <img class="L" id="logo2" src="../icons/icon-512.png" style="width:300px;height:300px;left:390px;top:640px;border-radius:72px;box-shadow:0 50px 100px rgba(0,60,160,.3)">
+    <div class="L" id="name2" style="left:0;right:0;top:1000px;text-align:center;font-size:110px;font-weight:900">聖佳冷凍材料</div>
+    <div class="L" id="pill2" style="left:0;right:0;top:1175px;text-align:center"><span class="pill">線上詢價　上線了</span></div>
+  </div>
+
+  <!-- 第 3 幕 首頁 -->
+  <div id="s3">
+    <div class="cap L" id="cap3" style="top:150px"><span class="s">冷媒・銅管・壓縮機</span><span class="b"><span class="blue" id="num3">4,000</span> 多種材料</span></div>
+    <div class="phone L" id="ph3" style="left:220px;top:470px"><div class="scr"><img id="scr3" src="shots/01-home.png" style="height:100%;object-fit:cover;object-position:top"></div><div class="refl"></div></div>
+  </div>
+
+  <!-- 第 4 幕 商品特寫 -->
+  <div id="s4">
+    <div class="cap L" id="cap4" style="top:170px"><span class="b" style="font-size:112px">每一項都有</span><span class="b" style="font-size:112px">照片和規格</span></div>
+    <div class="L" id="shadow4" style="left:290px;top:1500px;width:500px;height:70px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.28),transparent)"></div>
+    <img class="L" id="comp4" src="../img/ai/09.jpg" style="left:190px;top:560px;width:700px;height:960px;object-fit:cover;object-position:50% 50%;border-radius:64px;box-shadow:0 60px 120px rgba(30,40,60,.25)">
+    <div class="chip L" id="c4a" style="left:90px;top:640px">3HP</div>
+    <div class="chip L" id="c4b" style="right:80px;top:820px">R410A</div>
+    <div class="chip L" id="c4c" style="left:110px;top:1260px;color:#1b8a4b">● 現貨</div>
+  </div>
+
+  <!-- 第 5 幕 型號 -->
+  <div id="s5">
+    <div class="cap L" id="cap5" style="top:150px"><span class="b" style="font-size:112px"><span class="blue">436</span> 個壓縮機型號</span><span class="s" style="font-size:76px;font-weight:900;color:#1d1d1f">打型號就找到</span></div>
+    <div class="phone L" id="ph5" style="left:220px;top:520px"><div class="scr"><img src="shots/04-models.png"></div><div class="refl"></div></div>
+    <div class="glass L" id="q5" style="left:110px;width:860px;top:760px;height:200px;border-radius:44px;display:flex;align-items:center;padding:0 54px;font-size:110px;font-weight:900;letter-spacing:.04em"><span style="font-size:70px;margin-right:30px;opacity:.5">⌕</span><span id="q5t"></span><i id="q5c" style="width:8px;height:110px;background:#0066cc;margin-left:8px;border-radius:4px"></i></div>
+    <div class="glass L" id="r5" style="left:70px;width:940px;top:1010px;padding:36px 44px;border-radius:48px">
+      <div style="font-size:68px;font-weight:900;line-height:1.2">ZB26KQE-PFV<br>渦卷式壓縮機</div>
+      <div style="font-size:60px;color:#3a3a3c;margin-top:10px;font-weight:700">Copeland（黑金剛）</div>
+      <div style="margin-top:24px"><span class="pill" style="font-size:62px;padding:16px 44px">加入詢價單</span></div>
+    </div>
+    <div class="tick L" id="tick5">Copeland　・　Danfoss　・　BITZER　・　Tecumseh　・　Panasonic　・　Mitsubishi　・　Rechi　・　TECO　・　Copeland　・　Danfoss　・　BITZER　・　Tecumseh</div>
+  </div>
+
+  <!-- 第 6 幕 LINE -->
+  <div id="s6">
+    <div class="cap L" id="cap6a" style="top:150px"><span class="b">挑好一次傳</span><span class="s" style="font-size:66px;font-weight:900;color:#1d1d1f">清單自動帶進 <span style="color:#06a54a">LINE</span></span></div>
+    <div class="cap L" id="cap6b" style="top:150px"><span class="b">專人回覆報價</span><span class="s">不用一間一間打電話</span></div>
+    <div class="glass L" id="chat6" style="left:50px;width:980px;top:450px;height:1150px;border-radius:64px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:24px;padding:34px 44px;border-bottom:2px solid rgba(0,0,0,.06)"><img src="../icons/icon-192.png" style="width:90px;height:90px;border-radius:24px"><b style="font-size:62px">聖佳冷凍材料</b></div>
+    </div>
+    <div class="item L" id="i6a"><img src="../img/ai/01.jpg">R32 冷媒 × 2 瓶</div>
+    <div class="item L" id="i6b"><img src="../img/ai/02.jpg">R410A 冷媒 × 1 瓶</div>
+    <div class="item L" id="i6c"><img src="../img/ai/09.jpg">ZB26 壓縮機 × 1 台</div>
+    <div class="bub me L" id="b6me" style="right:90px;top:640px;width:880px"><b>【聖佳網站詢價】</b><br>1. R32 冷媒 × 2 瓶<br>2. R410A 冷媒 × 1 瓶<br>3. ZB26KQE 壓縮機 × 1 台<br>取貨：中和門市自取</div>
+    <div class="bub shop L" id="b6dots" style="left:90px;top:1240px;font-size:70px;letter-spacing:12px">• • •</div>
+    <div class="bub shop L" id="b6shop" style="left:90px;top:1240px;width:820px"><b>收到！</b>馬上幫您報價，<br>請稍等一下。</div>
+  </div>
+
+  <!-- 第 7 幕 結尾 -->
+  <div id="s7">
+    <img class="prod L" id="p7a" src="../img/ai/01.jpg" style="width:200px;height:200px">
+    <img class="prod L" id="p7b" src="../img/ai/09.jpg" style="width:200px;height:200px">
+    <img class="prod L" id="p7c" src="../img/ai/05.jpg" style="width:200px;height:200px">
+    <img class="prod L" id="p7d" src="../img/ai/12.jpg" style="width:200px;height:200px">
+    <img class="prod L" id="p7e" src="../img/ai/17.jpg" style="width:200px;height:200px">
+    <img class="prod L" id="p7f" src="../img/ai/04.jpg" style="width:200px;height:200px">
+    <img class="L" id="logo7" src="../icons/icon-512.png" style="width:160px;height:160px;left:460px;top:130px;border-radius:40px;box-shadow:0 30px 70px rgba(0,60,160,.28)">
+    <div class="L" id="name7" style="left:0;right:0;top:300px;text-align:center;font-size:112px;font-weight:900">聖佳冷凍材料</div>
+    <div class="L" id="sub7" style="left:0;right:0;top:440px;text-align:center;font-size:66px;font-weight:900;color:#0066cc">線上詢價</div>
+    <div class="glass L" id="qr7" style="left:300px;top:560px;width:480px;height:480px;padding:24px;border-radius:56px"><img src="qr.png" style="width:100%;height:100%;border-radius:30px;display:block"></div>
+    <div class="L" id="cta7" style="left:0;right:0;top:1075px;text-align:center"><span class="pill" style="font-size:66px">掃描或點主頁連結</span></div>
+    <div class="L" id="info7" style="left:0;right:0;top:1215px;text-align:center;font-size:104px;font-weight:900;line-height:1.25">02-8242-1712<br><span style="font-size:62px;font-weight:700;color:#3a3a3c">新北市中和區勝利路 33 號</span></div>
+  </div>
+
+  <!-- 前景：轉場時從鏡頭前掠過的商品（淡淡的景深） -->
+  <img class="L" id="near" src="../img/ai/02.jpg" style="width:520px;height:520px;object-fit:contain;filter:blur(10px);opacity:0">
+</div>
+<script>
+const q=new URLSearchParams(location.search);
+const BEAT=+q.get("beat")||0.4918;              // 一拍幾秒
+const b=n=>n*BEAT;                                // 第 n 拍的秒數
+window.DURATION=b(64);
+const $=id=>document.getElementById(id);
+const cl=v=>Math.max(0,Math.min(1,v));
+const E={out:t=>1-Math.pow(1-t,3),io:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,in:t=>t*t*t,back:t=>{const c=1.5;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)},soft:t=>1-Math.pow(1-t,2)};
+const k=(t,a,d,e=E.out)=>e(cl((t-a)/d));          // 從 a 秒開始、d 秒做完的進度
+const L=(a,c,p)=>a+(c-a)*p;
+function S(el,{x=0,y=0,s=1,r=0,o=1,ry=0,rx=0,blur=null}={}){el=typeof el==="string"?$(el):el;
+  el.style.transform=`translate3d(${x}px,${y}px,0) perspective(1600px) rotateX(${rx}deg) rotateY(${ry}deg) rotate(${r}deg) scale(${s})`;el.style.opacity=o;if(blur!==null)el.style.filter=blur?`blur(${blur}px)`:"none"}
+const vis=(id,on)=>{$(id).style.display=on?"block":"none"};
+// 逐字進場
+function chars(id,text){$(id).innerHTML=[...text].map(c=>`<span class="ch">${c}</span>`).join("")}
+chars("s1t1","冷凍材料");chars("s1t2","要問價？");
+function charsIn(id,t,start,gap){[...$(id).children].forEach((c,i)=>{const p=k(t,start+i*gap,.45,E.out);S(c,{y:L(70,0,p),o:p})})}
+// 雪：固定種子，每格都算得出來
+let seed=7;const rnd=()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296};
+const flakes=Array.from({length:110},()=>({x:rnd()*1080,y:rnd()*1920,r:2+rnd()*7,v:30+rnd()*70,s:rnd()*6}));
+const cv=$("snow").getContext("2d");
+function snow(t){cv.clearRect(0,0,1080,1920);for(const f of flakes){const y=(f.y+f.v*t)%1960-20,x=f.x+Math.sin(t*.7+f.s)*18;
+  cv.beginPath();cv.arc(x,y,f.r,0,7);cv.fillStyle=`rgba(130,180,230,${.22+f.r/22})`;cv.fill()}}
+// 每幕的時間（拍）：1 開場 0–8、2 品牌 8–16、3 首頁 16–24、4 特寫 24–32、5 型號 32–40、6 LINE 40–50、7 結尾 50–60
+const SC=[[0,8],[8,16],[16,24],[24,32],[32,40],[40,50],[50,64]].map(([a,c])=>[b(a),b(c)]);
+const TINT=["#ff9fb8","#ffb27a","#7fd0ff","#ffffff","#9fb8ff","#7fe0a8","#7fd9b8"];
+const HITS=()=>[b(8),b(36),b(50)];
+function seek(t){
+  const hit=HITS().reduce((a,h)=>{const d=t-h;return d>=0&&d<.35?Math.max(a,(1-d/.35)**2):a},0);
+  $("stage").style.transform=`scale(${1+hit*.035})`;
+  const sc=SC.findIndex(([a,c])=>t>=a&&t<c);const cur=sc<0?6:sc;
+  // 背景
+  snow(t);S("rays",{x:Math.sin(t*.35)*40,r:Math.sin(t*.2)*1.2});S("caus",{x:Math.sin(t*.9)*30,y:Math.cos(t*.7)*14,s:1+Math.sin(t*.5)*.04});
+  const tn=$("tint");tn.style.background=TINT[cur];tn.style.left=(380+Math.sin(t*.4)*120)+"px";tn.style.top=(1150+Math.cos(t*.3)*120)+"px";tn.style.opacity=cur===3?0:.42;
+  const st=cl(Math.min((t-SC[3][0])/.5,(SC[3][1]-t)/.5));$("studio").style.opacity=st;$("snow").style.opacity=1-st*.8;
+  ["s1","s2","s3","s4","s5","s6","s7"].forEach((id,i)=>vis(id,t>=SC[i][0]-.05&&t<SC[i][1]+.05));
+  const out=(i,d=.12)=>1-k(t,SC[i][1]-d,d,E.in);     // 每幕結尾淡出
+  // ---- 1 開場 ----
+  if(t<SC[0][1]+.4){const T=t, ex=out(0);
+    S("s1card",{s:L(1,1.04,k(T,0,b(8),E.soft))*L(.92,1,ex),o:ex});
+    charsIn("s1t1",T,-1,0);charsIn("s1t2",T,.3,.07);
+    S("s1p1",{y:Math.sin(T*1.1)*16,r:-6,o:ex});S("s1p2",{y:Math.cos(T*1.3)*14,r:7,o:ex});
+    $("s1mark").style.backgroundSize=(k(T,1.0,.45,E.io)*100)+"% 100%";
+    S("s1strike",{o:k(T,1.75,.4)*ex,y:L(30,0,k(T,1.75,.4))});
+    $("s1line").style.width=(k(T,b(5),.35,E.io)*(100))+"%";
+    S("s1back",{y:Math.sin(T*1.2)*14,o:.85*ex});}
+  // ---- 2 品牌（重拍 1 在第 8 拍）----
+  if(t>=SC[1][0]-.05&&t<SC[1][1]+.4){const T=t-SC[1][0], ex=out(1);
+    const lp=k(T,0,.55,E.back);S("logo2",{s:L(.4,1,lp),o:k(T,0,.25)*ex});
+    const pos=[[90,340,-8],[740,300,7],[110,1360,6],[730,1390,-6]],from=[[-500,-400],[700,-500],[-600,500],[700,560]];
+    ["p2a","p2b","p2c","p2d"].forEach((id,i)=>{const p=k(T,.15+i*.12,.7,E.out);const [px,py,r]=pos[i];
+      const el=$(id);el.style.left=px+"px";el.style.top=py+"px";S(el,{x:L(from[i][0],0,p),y:L(from[i][1],0,p)+Math.sin(T*1.4+i)*10,r:L(r*3,r,p),o:cl(p*1.5)*ex})});
+    S("name2",{y:L(50,0,k(T,.6,.5)),o:k(T,.6,.4)*ex});
+    S("pill2",{s:L(.7,1,k(T,b(2),.45,E.back)),o:k(T,b(2),.25)*ex});}
+  // ---- 3 首頁 ----
+  if(t>=SC[2][0]-.05&&t<SC[2][1]+.4){const T=t-SC[2][0], ex=out(2);
+    const up=k(T,0,.6,E.out),flat=k(T,.5,1.1,E.io);
+    S("ph3",{y:L(900,0,up),rx:L(28,0,flat),ry:L(-16,0,flat),s:L(.9,1,flat)*L(1,1.04,k(T,1.6,b(8)-1.6,E.soft)),o:ex});
+    S("cap3",{y:L(40,0,k(T,.9,.5)),o:k(T,.9,.4)*ex});
+    $("num3").textContent=Math.round(L(0,4000,k(T,1.1,1.3,E.io))).toLocaleString("en-US");
+    }
+  // ---- 4 商品特寫 ----
+  if(t>=SC[3][0]-.05&&t<SC[3][1]+.4){const T=t-SC[3][0], ex=out(3);
+    const orb=k(T,0,b(8),E.io);
+    S("comp4",{ry:L(-38,30,orb),rx:8,y:L(80,0,k(T,0,.6))+Math.sin(T*1.3)*8,s:L(.92,1,k(T,0,.6)),o:k(T,0,.15)*ex});
+    S("shadow4",{s:L(.8,1.05,orb),o:.9*ex});
+    S("cap4",{y:L(40,0,k(T,.3,.5)),o:k(T,.3,.4)*ex});
+    [["c4a",b(2)],["c4b",b(3)],["c4c",b(4)]].forEach(([id,a])=>S(id,{s:L(.5,1,k(T,a,.4,E.back)),o:k(T,a,.15)*ex,y:Math.sin(T*1.5+a)*8}));}
+  // ---- 5 型號（重拍 2 在第 36 拍：結果出來）----
+  if(t>=SC[4][0]-.05&&t<SC[4][1]+.4){const T=t-SC[4][0], ex=out(4);
+    S("ph5",{y:L(700,180,k(T,0,.6)),s:.92,o:.55*ex,blur:6});
+    S("cap5",{y:L(40,0,k(T,.2,.5)),o:k(T,.2,.4)*ex});
+    S("q5",{s:L(.8,1,k(T,.4,.5,E.back)),o:k(T,.4,.3)*ex});
+    const typed=["Z","ZB","ZB2","ZB26"];let n=0;[b(2),b(2.5),b(3),b(3.5)].forEach((a,i)=>{if(T>=a)n=i+1});
+    $("q5t").textContent=n?typed[n-1]:"";$("q5c").style.opacity=(Math.floor(T*2.4)%2&&T<b(4))?0:1;
+    S("r5",{y:L(80,0,k(T,b(4),.5,E.back)),s:L(.9,1,k(T,b(4),.5,E.back)),o:k(T,b(4),.25)*ex});
+    S("tick5",{x:-((T*160)%1400),o:k(T,.6,.5)*ex});}
+  // ---- 6 LINE ----
+  if(t>=SC[5][0]-.05&&t<SC[5][1]+.4){const T=t-SC[5][0], ex=out(5);
+    S("chat6",{y:L(120,0,k(T,0,.5)),o:k(T,0,.15)*ex});
+    const send=b(3.5);
+    [["i6a",720],["i6b",900],["i6c",1080]].forEach(([id,y0],i)=>{const el=$(id);el.style.top=y0+"px";const a=.3+i*.18,fly=k(T,send+i*.1,.45,E.in);
+      S(el,{x:L(-60,0,k(T,a,.4))+L(0,140,fly),y:L(0,-200+i*-80,fly),s:L(1,.5,fly),o:k(T,a,.3)*(1-fly)})});
+    const bp=k(T,send+.35,.5,E.back);S("b6me",{s:L(.3,1,bp),o:k(T,send+.35,.2)*ex});$("b6me").style.transformOrigin="100% 100%";
+    const dots=b(6.2),rep=b(7.2);
+    S("b6dots",{s:L(.5,1,k(T,dots,.3,E.back)),o:(T>=dots&&T<rep?1:0)*ex});
+    S("b6shop",{s:L(.4,1,k(T,rep,.45,E.back)),o:k(T,rep,.2)*ex});$("b6shop").style.transformOrigin="0 100%";
+    const sw=k(T,b(6.6),.35);S("cap6a",{o:k(T,.1,.4)*(1-sw),y:L(40,0,k(T,.1,.5))});S("cap6b",{o:sw*ex,y:L(30,0,sw)});}
+  // ---- 7 結尾（重拍 3 在第 50 拍：大家飛進來圍住 Logo）----
+  if(t>=SC[6][0]-.05){const T=t-SC[6][0];
+    S("qr7",{s:L(.6,1,k(T,0,.5,E.back)),o:k(T,0,.12)});
+    S("logo7",{y:L(-60,0,k(T,.15,.5)),o:k(T,.15,.35)});S("name7",{y:L(40,0,k(T,.3,.5)),o:k(T,.3,.4)});S("sub7",{o:k(T,.45,.4)});
+    const pos=[[40,560],[840,540],[20,830],[860,820],[90,1470],[790,1480]],from=[[-700,-300],[700,-300],[-700,0],[700,0],[-700,300],[700,300]];
+    ["p7a","p7b","p7c","p7d","p7e","p7f"].forEach((id,i)=>{const p=k(T,.05+i*.07,.75,E.out);const el=$(id);el.style.left=pos[i][0]+"px";el.style.top=pos[i][1]+"px";
+      S(el,{x:L(from[i][0],0,p),y:L(from[i][1],0,p)+Math.sin(T*1.3+i)*10,r:L((i%2?20:-20),(i%2?6:-6),p),o:cl(p*1.4)})});
+    S("cta7",{s:L(.7,1,k(T,.6,.45,E.back)),o:k(T,.6,.25)});S("info7",{y:L(40,0,k(T,.85,.5)),o:k(T,.85,.4)});}
+  // ---- 前景掠過（轉場用，淡淡的）----
+  const pass=[[SC[0][1]-.35,"../img/ai/02.jpg",-1],[SC[1][1]-.35,"../img/ai/04.jpg",1],[SC[4][1]-.35,"../img/ai/01.jpg",-1]];
+  const nr=$("near");let shown=false;
+  for(const [a,src,dir] of pass){const p=(t-a)/.7;if(p>=0&&p<=1){shown=true;if(!nr.src.endsWith(src.slice(2)))nr.src=src;
+    nr.style.left="280px";nr.style.top="700px";S(nr,{x:L(-1100*dir,1100*dir,E.io(p)),y:L(200,-120,p),s:1.3,o:.55})}}
+  if(!shown)nr.style.opacity=0;
+}
+window.seek=seek;
+window.ready=Promise.all([document.fonts.ready,...[...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))]);
+seek(0);
+</script>
+</body>
+</html>
